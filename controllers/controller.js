@@ -6,6 +6,21 @@ class Controller {
     static home(req,res) {
         res.render('home')
     }
+
+    static register(req, res){
+        res.render('registerForm')
+    }
+
+    static postRegister(req,res){
+        const {email, password, role} = req.body
+        User.create({email, password, role})
+        .then(()=> {
+            res.redirect('registerForm')
+        })
+        .catch(err => {
+            res.send(err)
+        })
+    }
     
     static bookList(req,res) {
 

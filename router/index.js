@@ -14,13 +14,15 @@
 const router = require('express').Router()
 const Controller = require('../controllers/controller')
 
-router.get('/', Controller.home)
-router.get('/bookList', Controller.bookList)
-router.get('/genre', Controller.genre)
-router.get('/book/:id/read', Controller.readBook)
-router.post('/book/:id/read', Controller.saveBook)
-router.get('/book/:id/delete', Controller.deleteReadBook) 
-router.get('/myBooks', Controller.myBooks) 
-router.get('/readersList', Controller.readersList) //admin
+router.get('/register', Controller.register)
+router.post('/register', Controller.register)
+// router.get('/', Controller.home)
+// router.get('/bookList', Controller.bookList)
+// router.get('/genre', Controller.genre)
+// router.get('/book/:id/read', Controller.readBook)
+// router.post('/book/:id/read', Controller.saveBook)
+// router.get('/book/:id/delete', Controller.deleteReadBook) 
+// router.get('/myBooks', Controller.myBooks) 
+// router.get('/readersList', Controller.readersList) //admin
 
 module.exports = router
