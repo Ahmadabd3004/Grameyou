@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const Controller = require('../controllers/controller')
 
+// router.get('/test', Controller.test)
 router.get('/register', Controller.register)
 router.post('/register', Controller.postRegister)
 
@@ -33,7 +34,7 @@ router.post('/book/Add', Controller.addBook)
 router.get('/book/:id/edit', Controller.formEditBook)
 router.post('/book/:id/edit', Controller.editBook)
 router.get('/book/:id/delete', Controller.deleteBook) 
-// router.get('/myBooks', Controller.myBooks) 
+router.get('/myBooks', Controller.myBooks) 
 // router.get('/myBooks/:id/delete', Controller.deleteReadBook) 
 // router.get('/readersList', Controller.readersList) //admin
 
