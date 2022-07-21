@@ -16,8 +16,42 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Book.init({
-    title: DataTypes.STRING,
-    author: DataTypes.STRING
+    title: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : 'title cannot be null'
+        },
+        notEmpty : {
+          msg : 'title cannot be empty'
+        }
+      }
+    },
+    author: {
+      type : DataTypes.STRING,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : 'author cannot be null'
+        },
+        notEmpty : {
+          msg : 'author cannot be empty'
+        }
+      }
+    },
+    GenreId: {
+      type : DataTypes.INTEGER,
+      allowNull : false,
+      validate : {
+        notNull : {
+          msg : 'Genre cannot be null'
+        },
+        notEmpty : {
+          msg : 'Genre cannot be empty'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'Book',
