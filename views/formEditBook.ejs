@@ -34,37 +34,30 @@
           </div>
         </div>
       </nav>
-    <form action="/bookList" method="get">
-        <input type="text" name="search" id="">
-        <button type="submit">Search</button>
+    <% if(errors){%>
+        <p style="color: red;"><%= errors %> </p>
+    <%} %>  
+    <form action="/book/<%= book.id %> /edit" method="post">
+        <div>
+            <label for="">Title</label>
+            <input type="text" name="title" id="" value="<%= book.title %>">
+        </div>
+        <div>
+            <label for="">Author</label>
+            <input type="text" name="author" id="" value="<%= book.author %>">
+        </div>
+        <div>
+            <label for="">Genre</label>
+            <select name="GenreId" id="">
+                <option selected disabled>Choose book genre</option>
+                <% genres.forEach((el)=>{ %>
+                    <option value="<%= el.id %>" <%= el.id == book.GenreId ? "selected" : "" %> ><%= el.name %></option>
+                <% }) %>
+            </select>
+        </div>
+        <button type="submit">Add book</button>
     </form>
-    <table class="table">
-        <thead>
-            <th>Book Image</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Action</th>
-        </thead>
-        <tbody>
-            
-                <tr>
-                    <td>
-                        <img src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-4-CRC.png">
-                    </td>
-                    <td>
-                        <%= books.title %>
-                    </td>
-                    <td>
-                        <%= books.author %>
-                    </td>
-                    <td>
-                        <form action="/book/<%=books.id%>/read" method="post"><button>Read</button></form>
-                        <!-- <a class="btn btn-warning">Read</a> -->
-                    </td>
-                </tr>
-            
-        </tbody>
-    </table>
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->

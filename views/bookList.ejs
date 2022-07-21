@@ -11,10 +11,36 @@
     <title>Hello, world!</title>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">GrameYou</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/bookList">BookList</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/genre">Genre</a>
+              </li>
+              <% if(user.role == 'Admin') {%>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="/dataReader">DataReader</a>
+                </li>
+              <%}%> 
+            </ul>
+          </div>
+        </div>
+      </nav>
     <form action="/bookList" method="get">
         <input type="text" name="search" id="">
         <button type="submit">Search</button>
     </form>
+    <% if(user.role == 'Admin') {%>
+        <a href="/book/add" class="btn btn-primary">Add Book</a>
+      <%}%> 
     <table class="table">
         <thead>
             <th>Title</th>
@@ -31,7 +57,11 @@
                         <%= el.author %>
                     </td>
                     <td>
-                        <a href="/book/<%=el.id%>/read" class="btn btn-warning">Read</a>
+                        <a href="/book/<%=el.id%>/read" class="btn btn-primary">Read</a>
+                        <% if(user.role == 'Admin') {%>
+                            <a href="/book/<%=el.id%>/edit" class="btn btn-warning">Edit</a>
+                            <a href="/book/<%=el.id%>/delete" class="btn btn-danger">Delete</a>
+                        <%}%> 
                     </td>
                 </tr>
                 <% }) %>
