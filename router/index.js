@@ -3,8 +3,25 @@ const Controller = require('../controllers/controller')
 
 router.get('/test', Controller.test)
 router.get('/register', Controller.register)
-router.post('/register', Controller.register)
-router.get('/home', Controller.home)
+router.post('/register', Controller.postRegister)
+
+router.get('/login', Controller.loginForm)
+router.post('/login', Controller.postLogin)
+
+router.use(function(req,res,next){
+    if (req.session.user) {
+        if (req.session.user.id) {
+            next()
+        }else{
+            res.redirect('login')
+        }
+    }else{
+        res.redirect('login')
+    }
+})
+
+router.get('/logout', Controller.logout)
+router.get('/', Controller.home)
 router.get('/bookList', Controller.bookList)
 router.get('/genre', Controller.genre)
 router.get('/book/:id/read', Controller.readBook)
