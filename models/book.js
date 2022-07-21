@@ -14,6 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       Book.belongsTo(models.Genre)
       Book.hasMany(models.UsersBook)
     }
+    static totalBook(){
+      return this.findAll({
+        attributes: [
+          [sequelize.fn('COUNT', sequelize.col('id')), 'count']
+        ]
+      })  
+    }
   }
   Book.init({
     title: {

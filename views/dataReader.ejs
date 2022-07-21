@@ -43,13 +43,18 @@
       <h1>Book list</h1>
         <table class="table">
             <thead>
+                <th>User ID</th>
                 <th>Book ID</th>
                 <th>Time Left</th>
-                <th>Action</th>
+                <th>Role</th>
+                <th>Rent time</th>
             </thead>
             <tbody>
                 <% userbook.forEach((userbook)=>{ %>
                     <tr>
+                        <td>
+                            <%= userbook.User.username %>
+                        </td>
                         <td>
                             <%= userbook.Book.title %>
                         </td>
@@ -57,7 +62,10 @@
                             <%= userbook.timeLeft %>
                         </td>
                         <td>
-                            <a href="/myBooks/<%= userbook.Book.id %>/delete" class="btn btn-danger">Delete</a>
+                            <%= userbook.User.role %>
+                        </td>
+                        <td>
+                            <%= userbook.formatDate() %>
                         </td>
                     </tr>
                     <% }) %>
