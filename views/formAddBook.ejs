@@ -34,39 +34,30 @@
           </div>
         </div>
       </nav>
-    <form action="/bookList" method="get">
-        <input type="text" name="search" id="">
-        <button type="submit">Search</button>
-    </form>
-    <% if(user.role == 'Admin') {%>
-        <a href="/book/add" class="btn btn-primary">Add Book</a>
-      <%}%> 
-    <table class="table">
-        <thead>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Action</th>
-        </thead>
-        <tbody>
-            <% books.forEach((el)=>{ %>
-                <tr>
-                    <td>
-                        <%= el.title %>
-                    </td>
-                    <td>
-                        <%= el.author %>
-                    </td>
-                    <td>
-                        <a href="/book/<%=el.id%>/read" class="btn btn-primary">Read</a>
-                        <% if(user.role == 'Admin') {%>
-                            <a href="/book/<%=el.id%>/edit" class="btn btn-warning">Edit</a>
-                            <a href="/book/<%=el.id%>/delete" class="btn btn-danger">Delete</a>
-                        <%}%> 
-                    </td>
-                </tr>
+    <% if(errors){%>
+        <p style="color: red;"><%= errors %> </p>
+    <%} %>  
+    <form action="/book/Add" method="post">
+        <div>
+            <label for="">Title</label>
+            <input type="text" name="title" id="">
+        </div>
+        <div>
+            <label for="">Author</label>
+            <input type="text" name="author" id="">
+        </div>
+        <div>
+            <label for="">Genre</label>
+            <select name="GenreId" id="">
+                <option selected disabled>Choose book genre</option>
+                <% genres.forEach((el)=>{ %>
+                    <option value="<%= el.id %>"><%= el.name %></option>
                 <% }) %>
-        </tbody>
-    </table>
+            </select>
+        </div>
+        <button type="submit">Add book</button>
+    </form>
+
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
