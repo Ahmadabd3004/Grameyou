@@ -35,7 +35,8 @@
                         <%= books.author %>
                     </td>
                     <td>
-                        <a href="/book/:id/read" class="btn btn-warning">Read</a>
+                        <form action="/book/<%=books.id%>/read" method="post"><button>Read</button></form>
+                        <!-- <a class="btn btn-warning">Read</a> -->
                     </td>
                 </tr>
             

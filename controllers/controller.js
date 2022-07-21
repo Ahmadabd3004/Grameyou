@@ -1,4 +1,4 @@
-const { Book, User, Genre } = require('../models/')
+const { Book, User, Genre, UsersBook } = require('../models/')
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
 
@@ -85,12 +85,14 @@ class Controller {
     }
 
     static saveBook(req, res) {
-        const { title, author, genre } = req.body
-        Book.create({ title, author, genre })
-            .then(() => {
+        const UserId = req.session.user.id
+        const timeLeft = "48 hours"
+        const BookId = req.params.id
+        UsersBook.create({ UserId, BookId, timeLeft })
+            .then(
 
                 res.redirect('myBooks')
-            })
+            )
             .catch(err => {
                 res.send(err)
             })
@@ -110,7 +112,11 @@ class Controller {
     }
 
     static myBooks(req, res) {
-        res.redirect('myBooks')
+        UsersBook.findAll()
+            .then(userbook => {
+                res.redirect('/myBooks', {userbook})
+                
+            })
     }
 
     static readersList(req, res) {
