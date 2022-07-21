@@ -101,7 +101,8 @@ class Controller {
     static myBooks(req, res) {
         UsersBook.findAll()
             .then(userbook => {
-                res.redirect('/myBooks', {userbook})
+                res.send(userbook)
+                res.redirect('myBooks', {userbook})
                 
             })
     }
