@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const Controller = require('../controllers/controller')
 
+router.get('/register', Controller.register)
+router.post('/register', Controller.register)
 router.get('/home', Controller.home)
 router.get('/bookList', Controller.bookList)
 router.get('/genre', Controller.genre)

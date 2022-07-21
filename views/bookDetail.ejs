@@ -17,24 +17,28 @@
     </form>
     <table class="table">
         <thead>
+            <th>Book Image</th>
             <th>Title</th>
             <th>Author</th>
             <th>Action</th>
         </thead>
         <tbody>
-            <% books.forEach((el)=>{ %>
+            
                 <tr>
                     <td>
-                        <%= el.title %>
+                        <img src="https://www.mswordcoverpages.com/wp-content/uploads/2018/10/Book-cover-page-4-CRC.png">
                     </td>
                     <td>
-                        <%= el.author %>
+                        <%= books.title %>
                     </td>
                     <td>
-                        <a href="/book/<%=el.id%>/read" class="btn btn-warning">Read</a>
+                        <%= books.author %>
+                    </td>
+                    <td>
+                        <a href="/book/:id/read" class="btn btn-warning">Read</a>
                     </td>
                 </tr>
-                <% }) %>
+            
         </tbody>
     </table>
     <!-- Optional JavaScript; choose one of the two! -->

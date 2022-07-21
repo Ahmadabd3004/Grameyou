@@ -3,6 +3,38 @@ const { Op } = require("sequelize");
 
 
 class Controller {
+    static home(req,res) {
+        res.render('home')
+    }
+
+    static register(req, res){
+        res.render('registerForm')
+    }
+
+    static postRegister(req,res){
+        const {email, password, role} = req.body
+        User.create({email, password, role})
+        .then(()=> {
+            res.redirect('registerForm')
+        })
+        .catch(err => {
+            res.send(err)
+        })
+    }
+    
+    static bookList(req,res) {
+
+        Book.findAll()
+        .then(book => {
+            res.render('bookList', {book})
+        })
+        .catch(err =>{
+            res.send(err)
+        })
+   
+    }
+    static genre(req,res) {}
+
     static home(req, res) {
         // res.send('masuk')
         Genre.findAll()
@@ -56,13 +88,20 @@ class Controller {
     }
 
     static readBook(req, res) {
-        res.render('formAdd') //diisi apa ya di sini..
+        let id = req.params.id
+        Book.findOne({where: {id}})
+            .then(books => {
+                // res.send(books)
+                res.render('bookDetail', {books})
+            })
+            
     }
 
     static saveBook(req, res) {
         const { title, author, genre } = req.body
         Book.create({ title, author, genre })
             .then(() => {
+                
                 res.redirect('myBooks')
             })
             .catch(err => {
