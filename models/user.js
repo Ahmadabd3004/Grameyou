@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       User.hasOne(models.Membership)
       User.hasMany(models.UsersBook)
     }
+
+    get nickName(){
+      return this.username + ' Jr.'
+    }
   }
   User.init({
     username: DataTypes.STRING,

@@ -37,10 +37,14 @@
         </div>
       </div>
     </nav>
+
+    <h1>WELCOME <%= userData.nickName %> </h1>
+
+
     <div>
       <a href="/logout" class="btn btn-danger">log out</a>
     </div>
-    <%= JSON.stringify(user) %> <br><br>
+   <br><br>
     <% result.forEach(el=>{%>
       <a href="/genre?id=<%= el.id %>" class="btn btn-primary"><%= el.name %></a>
       <%}) %> 

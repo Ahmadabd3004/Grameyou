@@ -7,10 +7,16 @@ class Controller {
 
     static home(req, res) {
         let user = req.session.user
+        let id = req.session.user.id
         // res.send('masuk')
-        Genre.findAll()
+        let value = {}
+        User.findOne({ where: { id } })
+            .then(userData => {
+                value.userData = userData
+                return Genre.findAll()
+            })
             .then(result => {
-                res.render('home', { result, user })
+                res.render('home', { result, userData: value.userData, user })
             })
             .catch(err => {
                 res.send(err)
@@ -30,9 +36,15 @@ class Controller {
                 }
             }
         }
+        let value = {}
         Book.findAll(query)
             .then(books => {
-                res.render('bookList', { books, user })
+                value.books = books
+                return Book.totalBook()
+            })
+            .then(total=>{
+                // res.send(total)
+                res.render('bookList', { books : value.books, user ,total:total[0].dataValues.count})
             })
             .catch(err => {
                 res.send(err)
@@ -63,10 +75,11 @@ class Controller {
     static readBook(req, res) {
         let id = req.params.id
         let user = req.session.user
+        let error = req.query.err
         Book.findOne({ where: { id } })
             .then(books => {
                 // res.send(books)
-                res.render('bookDetail', { books, user })
+                res.render('bookDetail', { books, user, error })
             })
 
     }
@@ -75,11 +88,21 @@ class Controller {
         const UserId = req.session.user.id
         const timeLeft = "48 hours"
         const BookId = req.params.id
-        UsersBook.create({ UserId, BookId, timeLeft })
-            .then(
-
-                res.redirect('myBooks')
-            )
+        UsersBook.findAll({ where: { UserId, BookId } })
+            .then(book => {
+                if (book.length) {
+                    const error = 'You only can rent this book once'
+                    return res.redirect(`/book/${BookId}/read?err=${error}`)
+                } else {
+                    return UsersBook.create({ UserId, BookId, timeLeft })
+                        .then(() => {
+                            res.redirect('/myBooks')
+                        })
+                        .catch(err => {
+                            res.send(err)
+                        })
+                }
+            })
             .catch(err => {
                 res.send(err)
             })
@@ -91,7 +114,7 @@ class Controller {
             where: { id }
         })
             .then(() => {
-                res.redirect('myBooks')
+                res.redirect('/myBooks')
             })
             .catch(err => {
                 res.send(err)
@@ -99,20 +122,41 @@ class Controller {
     }
 
     static myBooks(req, res) {
-        UsersBook.findAll()
+        let user = req.session.user
+        let UserId = req.session.user.id
+        UsersBook.findAll({
+            include: [
+                {
+                    model: User
+                },
+                {
+                    model: Book
+                }
+            ],
+            where: { UserId }
+        })
             .then(userbook => {
-                res.send(userbook)
-                res.redirect('myBooks', {userbook})
-                
+                res.render('myBooks', { userbook, user })
             })
     }
 
-    static deleteReadBook(req, res) {
 
-    }
 
     static readersList(req, res) {
-        res.redirect('readersList')
+        let user = req.session.user
+        UsersBook.findAll({
+            include: [
+                {
+                    model: User
+                },
+                {
+                    model: Book
+                }
+            ]
+        })
+            .then(userbook => {
+                res.render('dataReader', { userbook, user })
+            })
     }
 
     static register(req, res) {
@@ -233,7 +277,16 @@ class Controller {
                 res.send(err)
             })
     }
-    static dataReader(req,res){
+    static deleteReadBook(req, res) {
+        let UserId = req.session.user.id
+        let BookId = req.params.id
+        UsersBook.destroy({ where: { UserId, BookId } })
+            .then(() => {
+                res.redirect('/myBooks')
+            })
+            .catch(err => {
+                res.send(err)
+            })
     }
 }
 
