@@ -15,3 +15,13 @@ console.log(dates)
 //   Mon Jul 10 1989 00:00:00,
 //   Sun Jul 02 1995 00:00:00
 // ]
+
+
+
+// "production": {
+//   "username": "root",
+//   "password": null,
+//   "database": "database_production",
+//   "host": "127.0.0.1",
+//   "dialect": "mysql"
+// }
