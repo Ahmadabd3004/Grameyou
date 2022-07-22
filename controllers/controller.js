@@ -1,13 +1,16 @@
 const { Book, User, Genre, UsersBook } = require('../models/')
 const { Op } = require("sequelize");
 const bcrypt = require('bcryptjs');
-
+const fns = require('date-fns')
 class Controller {
 
 
     static home(req, res) {
         let user = req.session.user
         let id = req.session.user.id
+        // console.log(fns.format(new Date(), 'yyyy-MM-dd'))
+        let nameDay = fns.format(new Date(), "eeee")
+        let loginTime = fns.format(new Date(), 'yyyy-MM-dd')
         // res.send('masuk')
         let value = {}
         User.findOne({ where: { id } })
@@ -16,7 +19,7 @@ class Controller {
                 return Genre.findAll()
             })
             .then(result => {
-                res.render('home', { result, userData: value.userData, user })
+                res.render('home', { result, userData: value.userData, user, loginTime, nameDay })
             })
             .catch(err => {
                 res.send(err)
@@ -42,9 +45,9 @@ class Controller {
                 value.books = books
                 return Book.totalBook()
             })
-            .then(total=>{
+            .then(total => {
                 // res.send(total)
-                res.render('bookList', { books : value.books, user ,total:total[0].dataValues.count})
+                res.render('bookList', { books: value.books, user, total: total[0].dataValues.count })
             })
             .catch(err => {
                 res.send(err)
